@@ -120,6 +120,71 @@ Método main()
 21. ¿Qué pasa si hago un putIfAbsent al mapa con (101, “Puma SoftRide”, 41, 500, ‘H’) al Inventario? 
 
 ----
+
+# Zapateria.java (Clase Nueva)
+```java
+package dedogordo;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Zapateria {
+    private static final int TAM = 12; 
+
+    private HashMap<Integer, Calzado> inventario;
+    private ArrayList<Zapatilla> estanteSport;
+    private ArrayList<Integer> zapCode;
+    private HashMap<Integer, Sandalia> estantePlaya;
+    private Zapato[] estanteNoche;
+    private int contadorZapatosNoche;
+
+    public Zapateria() {
+        this.inventario = new HashMap<>();
+        this.estanteSport = new ArrayList<>();
+        this.zapCode = new ArrayList<>();
+        this.estantePlaya = new HashMap<>();
+        this.estanteNoche = new Zapato[TAM];
+        this.contadorZapatosNoche = 0;
+    }
+
+    public HashMap<Integer, Calzado> getInventario() {
+        return inventario; 
+    }
+    public ArrayList<Zapatilla> getEstanteSport() {
+        return estanteSport; 
+    }
+    public ArrayList<Integer> getZapCode() {
+        return zapCode; 
+    }
+    public HashMap<Integer, Sandalia> getEstantePlaya() {
+        return estantePlaya; 
+    }
+    public Zapato[] getEstanteNoche() {
+        return estanteNoche;
+    }
+
+    public void agregarCalzado(Calzado calzado) {
+
+    }
+
+    public void mostrarInventario() {
+        System.out.println(" INVENTARIO COMPLETO (DEDO GORDO) ");
+        inventario.forEach((codigo, calzado) -> {
+            System.out.println("Código Producto: " + codigo);
+            calzado.mostrarInformacion();
+        });
+    }
+
+    public void ordenarPorPrecio() {
+        
+    }
+
+    public void ordenarPorNombre() {
+        
+    }
+}
+```
+
 # Calzado.java
 ```java
 package dedogordo;
@@ -185,20 +250,18 @@ public abstract class Calzado {
         System.out.println("Stock"+this.stock);
     }
     
-    
-    
     public abstract void calcularPrecio();
     
 }
 ```
 # Sandalia.java
 ```java
-    package dedogordo;
+package dedogordo;
 
-public class Sandalia extends Calzado{
+public class Sandalia extends Calzado {
     private String material;
 
-    public Sandalia(String material, String nombre, float talleAR, int stock, char genero, double precio) {
+    public Sandalia(String nombre, float talleAR, int stock, char genero, double precio, String material) {
         super(nombre, talleAR, stock, genero, precio);
         this.material = material;
     }
@@ -213,30 +276,59 @@ public class Sandalia extends Calzado{
 
     @Override
     public void calcularPrecio() {
-        if(this.material.equals("Corcho") || this.material.equals("Goma")){
-            super.setPrecio(super.getPrecio()*1.1);
+        if (this.material.equalsIgnoreCase("corcho") || this.material.equalsIgnoreCase("goma")) {
+            super.setPrecio(super.getPrecio() * 1.10);
         }
     }
+
+    @Override
+    public void mostrarInformacion() {
+        super.mostrarInformacion();
+        System.out.println("Material: " + this.material);
+    }
+}
 ```
 # Zapatilla.java
 ```java
 package dedogordo;
 
-public class Zapatilla extends Calzado{
+public class Zapatilla extends Calzado implements Oferta {
     private String uso;
 
     public Zapatilla(String nombre, float talleAR, int stock, char genero, double precio, String uso) {
         super(nombre, talleAR, stock, genero, precio);
         this.uso = uso;
     }
-    
+
+    public String getUso() {
+        return uso;
+    }
+
+    public void setUso(String uso) {
+        this.uso = uso;
+    }
+
     @Override
     public void calcularPrecio() {
-        if(this.uso.equals("Urbano")){
-            super.setPrecio(super.getPrecio() * 0.80);
+        if (this.uso.equalsIgnoreCase("Urbano")) {
+            aplicarDescuento(20);
+        } else if (this.uso.equalsIgnoreCase("Running")) {
+            aplicarDescuento(10);
         }
     }
 
+    @Override
+    public void aplicarDescuento(int porcentaje) {
+        double nuevoPrecio = super.getPrecio() * (1 - (porcentaje / 100.0));
+        super.setPrecio(nuevoPrecio);
+    }
+
+    @Override
+    public void mostrarInformacion() {
+        super.mostrarInformacion();
+        System.out.println("Uso: " + this.uso);
+        System.out.println("---------------------------");
+    }
 }
 ```
 
@@ -244,10 +336,10 @@ public class Zapatilla extends Calzado{
 ```java
 package dedogordo;
 
-public class Zapato extends Calzado{
+public class Zapato extends Calzado {
     private String tipoDeCierre;
 
-    public Zapato(String tipoDeCierre, String nombre, float talleAR, int stock, char genero, double precio) {
+    public Zapato(String nombre, float talleAR, int stock, char genero, double precio, String tipoDeCierre) {
         super(nombre, talleAR, stock, genero, precio);
         this.tipoDeCierre = tipoDeCierre;
     }
@@ -262,25 +354,31 @@ public class Zapato extends Calzado{
 
     @Override
     public void calcularPrecio() {
-        if(tipoDeCierre.equals("Hebilla")){
-            super.setPrecio(super.getPrecio()*1.15);
-        }else{
-            super.setPrecio(super.getPrecio()*1.05);
+        if (this.tipoDeCierre.equalsIgnoreCase("hebilla") || this.tipoDeCierre.equalsIgnoreCase("hebilla metálica")) {
+            super.setPrecio(super.getPrecio() * 1.15);
+        } else {
+            super.setPrecio(super.getPrecio() * 1.05);
         }
     }
-    
+
+    @Override
+    public void mostrarInformacion() {
+        super.mostrarInformacion();
+        System.out.println("Tipo de cierre: " + this.tipoDeCierre);
+    }
 }
+
 ```
 
 # DedoGordo.java
 ```java
 package dedogordo;
 
-
 public class DedoGordo {
     public static void main(String[] args) {        
-        Zapatilla Zapatilla1 = new Zapatilla("Puma Future", 38, 100, 'h', 89000.20, "Deporte");
-
+        Zapateria zapateria = new Zapateria();
+        
+        
     }
 }
 ```

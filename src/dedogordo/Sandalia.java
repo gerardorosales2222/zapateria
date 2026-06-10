@@ -1,9 +1,9 @@
 package dedogordo;
 
-public class Sandalia extends Calzado{
+public class Sandalia extends Calzado {
     private String material;
 
-    public Sandalia(String material, String nombre, float talleAR, int stock, char genero, double precio) {
+    public Sandalia(String nombre, float talleAR, int stock, char genero, double precio, String material) {
         super(nombre, talleAR, stock, genero, precio);
         this.material = material;
     }
@@ -18,13 +18,14 @@ public class Sandalia extends Calzado{
 
     @Override
     public void calcularPrecio() {
-        if(this.material.equals("Corcho") || this.material.equals("Goma")){
-            super.setPrecio(super.getPrecio()*1.1);
+        if (this.material.equalsIgnoreCase("corcho") || this.material.equalsIgnoreCase("goma")) {
+            super.setPrecio(super.getPrecio() * 1.10);
         }
     }
-    
-    
-    
-    
-    
+
+    @Override
+    public void mostrarInformacion() {
+        super.mostrarInformacion();
+        System.out.println("Material: " + this.material);
+    }
 }
