@@ -118,3 +118,169 @@ Método main()
 20. ¿Qué pasa si hago un put al mapa con (101, “Puma SoftRide”, 41, 500, ‘H’) al Inventario? 
 
 21. ¿Qué pasa si hago un putIfAbsent al mapa con (101, “Puma SoftRide”, 41, 500, ‘H’) al Inventario? 
+
+----
+# Calzado.java
+```java
+package dedogordo;
+
+public abstract class Calzado {
+    private String nombre;
+    private float talleAR;
+    private int stock;
+    private char genero;
+    private double precio;
+
+    public Calzado(String nombre, float talleAR, int stock, char genero, double precio) {
+        this.nombre = nombre;
+        this.talleAR = talleAR;
+        this.stock = stock;
+        this.genero = genero;
+        this.precio = precio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public float getTalleAR() {
+        return talleAR;
+    }
+
+    public void setTalleAR(float talleAR) {
+        this.talleAR = talleAR;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public char getGenero() {
+        return genero;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+    
+    public void mostrarInformacion(){
+        System.out.println("Nombre"+this.nombre);
+        System.out.println("Precio"+this.precio);
+        System.out.println("Stock"+this.stock);
+    }
+    
+    
+    
+    public abstract void calcularPrecio();
+    
+}
+```
+# Sandalia.java
+```java
+    package dedogordo;
+
+public class Sandalia extends Calzado{
+    private String material;
+
+    public Sandalia(String material, String nombre, float talleAR, int stock, char genero, double precio) {
+        super(nombre, talleAR, stock, genero, precio);
+        this.material = material;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    @Override
+    public void calcularPrecio() {
+        if(this.material.equals("Corcho") || this.material.equals("Goma")){
+            super.setPrecio(super.getPrecio()*1.1);
+        }
+    }
+```
+# Zapatilla.java
+```java
+package dedogordo;
+
+public class Zapatilla extends Calzado{
+    private String uso;
+
+    public Zapatilla(String nombre, float talleAR, int stock, char genero, double precio, String uso) {
+        super(nombre, talleAR, stock, genero, precio);
+        this.uso = uso;
+    }
+    
+    @Override
+    public void calcularPrecio() {
+        if(this.uso.equals("Urbano")){
+            super.setPrecio(super.getPrecio() * 0.80);
+        }
+    }
+
+}
+```
+
+# Zapato.java
+```java
+package dedogordo;
+
+public class Zapato extends Calzado{
+    private String tipoDeCierre;
+
+    public Zapato(String tipoDeCierre, String nombre, float talleAR, int stock, char genero, double precio) {
+        super(nombre, talleAR, stock, genero, precio);
+        this.tipoDeCierre = tipoDeCierre;
+    }
+
+    public String getTipoDeCierre() {
+        return tipoDeCierre;
+    }
+
+    public void setTipoDeCierre(String tipoDeCierre) {
+        this.tipoDeCierre = tipoDeCierre;
+    }
+
+    @Override
+    public void calcularPrecio() {
+        if(tipoDeCierre.equals("Hebilla")){
+            super.setPrecio(super.getPrecio()*1.15);
+        }else{
+            super.setPrecio(super.getPrecio()*1.05);
+        }
+    }
+    
+}
+```
+
+# DedoGordo.java
+```java
+package dedogordo;
+
+
+public class DedoGordo {
+    public static void main(String[] args) {        
+        Zapatilla Zapatilla1 = new Zapatilla("Puma Future", 38, 100, 'h', 89000.20, "Deporte");
+
+    }
+}
+```
