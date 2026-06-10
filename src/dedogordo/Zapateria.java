@@ -50,11 +50,14 @@ public class Zapateria {
         });
     }
 
-    public void ordenarPorPrecio() {
-        
+    public void ordenarEstanteSportPorNombre() {
+        this.estanteSport.sort((z1, z2) -> z1.getNombre().compareToIgnoreCase(z2.getNombre()));
     }
 
-    public void ordenarPorNombre() {
-        
+    public java.util.List<java.util.Map.Entry<Integer, Sandalia>> obtenerEstantePlayaOrdenadoPorPrecioDesc() {
+        java.util.List<java.util.Map.Entry<Integer, Sandalia>> lista = new ArrayList<>(this.estantePlaya.entrySet());
+        lista.sort((e1, e2) -> Double.compare(e2.getValue().getPrecio(), e1.getValue().getPrecio()));
+        return lista;
     }
+    
 }
